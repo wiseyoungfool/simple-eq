@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="diaFBD" name="SimpleEQ" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginFormats="buildAAX,buildAU,buildAUv3,buildStandalone,buildVST3"
+              pluginVST3Category="EQ">
   <MAINGROUP id="p9AIx8" name="SimpleEQ">
     <GROUP id="{53A704EA-2FFA-C329-AE95-759D08BF26D9}" name="Source">
       <FILE id="Iw90zP" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -23,6 +25,7 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -48,6 +51,7 @@
         <MODULEPATH id="juce_graphics" path="E:/Repositories/JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="E:/Repositories/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="E:/Repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="E:/Repositories/JUCE/modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>
