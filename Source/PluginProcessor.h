@@ -21,7 +21,7 @@ enum Slope
 struct ChainSettings {
     float peakFreq{ 0 }, peakGainInDecibels{ 0 }, peakQuality{ 1.f };
     float lowCutFreq{ 0 }, highCutFreq{ 0 };
-    int lowCutSlope{ 0 }, highCutSlope{ 0 };
+    Slope lowCutSlope{ Slope_12 }, highCutSlope{ Slope_12 };
 };
 
 ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts);
@@ -100,14 +100,14 @@ private:
     }
 
     template<typename ChainType, typename CoefficientType>
-    void updateCutFilter(ChainType& chain, const CoefficientType& coefficients, const ChainSettings& chainSettings)
+    void updateCutFilter(ChainType& chain, const CoefficientType& coefficients, const Slope& slope)
     {
         chain.template setBypassed<0>(true);
         chain.template setBypassed<1>(true);
         chain.template setBypassed<2>(true);
         chain.template setBypassed<3>(true);
 
-        switch (chainSettings.lowCutSlope)
+        switch (slope)
         {
             case Slope_48:
             {
