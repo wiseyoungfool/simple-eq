@@ -44,6 +44,42 @@ void updateCoefficients(Coefficients& old, const Coefficients& replacements);
 
 Coefficients makePeakFilter(const ChainSettings& chainSettings, double sampleRate);
 
+template<int Index, typename ChainType, typename CoefficientType>
+void updateCutSlope(ChainType& chain, const CoefficientType& cutCoefficients)
+{
+    updateCoefficients(chain.template get<Index>().coefficients, cutCoefficients[Index]);
+    chain.template setBypassed<Index>(false);
+}
+
+template<typename ChainType, typename CoefficientType>
+void updateCutFilter(ChainType& chain, const CoefficientType& coefficients, const Slope& slope)
+{
+    chain.template setBypassed<0>(true);
+    chain.template setBypassed<1>(true);
+    chain.template setBypassed<2>(true);
+    chain.template setBypassed<3>(true);
+
+    switch (slope)
+    {
+    case Slope_48:
+    {
+        updateCutSlope<3>(chain, coefficients);
+    }
+    case Slope_36:
+    {
+        updateCutSlope<2>(chain, coefficients);
+    }
+    case Slope_24:
+    {
+        updateCutSlope<1>(chain, coefficients);
+    }
+    case Slope_12:
+    {
+        updateCutSlope<0>(chain, coefficients);
+    }
+    }
+}
+
 //==============================================================================
 /**
 */
@@ -94,42 +130,6 @@ private:
     MonoChain leftChain, rightChain;
 
     void updatePeakFilter(const ChainSettings& chainSettings);
-
-    template<int Index, typename ChainType, typename CoefficientType>
-    void updateCutSlope(ChainType& chain, const CoefficientType& cutCoefficients)
-    {
-        updateCoefficients(chain.template get<Index>().coefficients, cutCoefficients[Index]);
-        chain.template setBypassed<Index>(false);
-    }
-
-    template<typename ChainType, typename CoefficientType>
-    void updateCutFilter(ChainType& chain, const CoefficientType& coefficients, const Slope& slope)
-    {
-        chain.template setBypassed<0>(true);
-        chain.template setBypassed<1>(true);
-        chain.template setBypassed<2>(true);
-        chain.template setBypassed<3>(true);
-
-        switch (slope)
-        {
-            case Slope_48:
-            {
-                updateCutSlope<3>(chain, coefficients);
-            }
-            case Slope_36:
-            {
-                updateCutSlope<2>(chain, coefficients);
-            }
-            case Slope_24:
-            {
-                updateCutSlope<1>(chain, coefficients);
-            }
-            case Slope_12:
-            {
-                updateCutSlope<0>(chain, coefficients);
-            }
-        }
-    }
 
     void updateLowCutFilters(const ChainSettings& chainSettings);
     void updateHighCutFilters(const ChainSettings& chainSettings);
