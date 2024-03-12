@@ -61,23 +61,32 @@ void updateCutFilter(ChainType& chain, const CoefficientType& coefficients, cons
 
     switch (slope)
     {
-    case Slope_48:
-    {
-        updateCutSlope<3>(chain, coefficients);
+        case Slope_48:
+        {
+            updateCutSlope<3>(chain, coefficients);
+        }
+        case Slope_36:
+        {
+            updateCutSlope<2>(chain, coefficients);
+        }
+        case Slope_24:
+        {
+            updateCutSlope<1>(chain, coefficients);
+        }
+        case Slope_12:
+        {
+            updateCutSlope<0>(chain, coefficients);
+        }
     }
-    case Slope_36:
-    {
-        updateCutSlope<2>(chain, coefficients);
-    }
-    case Slope_24:
-    {
-        updateCutSlope<1>(chain, coefficients);
-    }
-    case Slope_12:
-    {
-        updateCutSlope<0>(chain, coefficients);
-    }
-    }
+}
+
+inline auto makeLowCutFilter(const ChainSettings& chainSettings, double sampleRate)
+{
+    return juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFreq, sampleRate, 2 * (chainSettings.lowCutSlope + 1));
+}
+inline auto makeHighCutFilter(const ChainSettings& chainSettings, double sampleRate)
+{
+    return juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(chainSettings.highCutFreq, sampleRate, 2 * (chainSettings.highCutSlope + 1));
 }
 
 //==============================================================================
